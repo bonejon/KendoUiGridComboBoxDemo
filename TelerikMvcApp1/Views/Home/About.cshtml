@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "About";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>@ViewBag.Message</h2>
+</hgroup>
+
+@(Html.Kendo().DropDownList()
+    .Name("Things")
+    .DataValueField("Id")
+    .DataTextField("Description")
+    .DataSource(ds =>
+    {
+        ds.Read(r => r.Action("GetThings", "Home"));
+    })
+)
+

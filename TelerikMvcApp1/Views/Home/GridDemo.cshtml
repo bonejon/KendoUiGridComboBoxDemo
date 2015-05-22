@@ -1,0 +1,40 @@
+﻿@using TelerikMvcApp1.Models
+
+@{
+    ViewBag.Title = "Grid Demo";
+}
+
+<hgroup class="title">
+    <h1>Grid Demo</h1>
+</hgroup>
+
+
+@(Html.Kendo().Grid<StuffViewModel>()
+    .Name("StuffGrid")
+    .Editable(e => e.Enabled(true).Mode(GridEditMode.InCell))
+    .ToolBar(t =>
+    {
+        t.Save();
+        t.Create();
+    })
+    .DataSource(ds =>
+    {
+        ds.Ajax()
+            .Batch(true)
+            .Read(r => r.Action("GetStuff", "Home"))
+            .Update(u => u.Action("SaveStuff", "Home"))
+            .Create(u => u.Action("CreateStuff", "Home"))
+            .Destroy(u => u.Action("DestroyStuff", "Home"))
+        .Model(m =>
+        {
+            m.Id(p => p.StuffId);
+            m.Field(p => p.Thing).DefaultValue((ThingViewModel)this.ViewBag.DefaultThing);
+        });
+    })
+    .Columns(c =>
+    {
+        c.Bound(p => p.StuffId);
+        c.Bound(p => p.Description);
+        c.Bound(p => p.Thing).Title("Thing").ClientTemplate("#:Thing.Description#");
+    })
+)

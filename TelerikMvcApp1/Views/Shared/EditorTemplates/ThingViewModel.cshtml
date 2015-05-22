@@ -1,0 +1,12 @@
+﻿@using TelerikMvcApp1.Models
+@model ThingViewModel
+
+@(Html.Kendo().DropDownListFor(m => m)
+    .OptionLabel("- Select Thing -")
+    .DataValueField("Id")
+    .DataTextField("Description")
+    .DataSource(ds =>
+    {
+        ds.Read(r => r.Action("GetThings", "Home"));
+    })
+)
